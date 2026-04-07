@@ -1,0 +1,853 @@
+/* ==========================================================================
+   CSS Variables & Reset
+   ========================================================================== */
+:root {
+  /* Colors */
+  --bg-color: #050505;
+  --bg-color-light: #111;
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  
+  /* Neon Colors */
+  --neon-blue: #00f3ff;
+  --neon-purple: #bc13fe;
+  --neon-pink: #ff0055;
+  
+  /* Fonts */
+  --font-main: 'Inter', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for fixed navbar */
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--transition-normal);
+}
+
+ul {
+  list-style: none;
+}
+
+/* ==========================================================================
+   Neon Text Utilities & Glow Effects
+   ========================================================================== */
+.neon-text-blue {
+  color: var(--neon-blue);
+  text-shadow: 0 0 5px rgba(0, 243, 255, 0.5), 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.neon-text-purple {
+  color: var(--neon-purple);
+  text-shadow: 0 0 5px rgba(188, 19, 254, 0.5), 0 0 15px rgba(188, 19, 254, 0.3);
+}
+
+.neon-text-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 5px rgba(255, 0, 85, 0.5), 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
+/* Gradient Neon Borders */
+.neon-gradient-border {
+  position: relative;
+  background: var(--bg-color-light);
+  border-radius: 8px;
+  background-clip: padding-box;
+  border: solid 2px transparent;
+  transition: all var(--transition-normal);
+}
+
+.neon-gradient-border::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: -1;
+  margin: -2px; /* same as border width */
+  border-radius: inherit;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+  background-size: 200% 200%;
+  animation: gradientBG 5s ease infinite;
+  opacity: 0.5;
+  transition: opacity var(--transition-normal);
+}
+
+.neon-gradient-border:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all var(--transition-normal);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo a {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 1rem;
+  position: relative;
+  color: var(--text-primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+  transition: width var(--transition-normal);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--neon-blue);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all var(--transition-normal);
+  background-color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.neon-btn-blue {
+  background: transparent;
+  color: var(--neon-blue);
+  border: 1px solid var(--neon-blue);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2), inset 0 0 10px rgba(0, 243, 255, 0.1);
+}
+
+.neon-btn-blue:hover {
+  background: var(--neon-blue);
+  color: var(--bg-color);
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.6), 0 0 40px rgba(0, 243, 255, 0.4);
+}
+
+.neon-btn-outline-pink {
+  background: transparent;
+  color: var(--neon-pink);
+  border: 1px solid var(--neon-pink);
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.2), inset 0 0 10px rgba(255, 0, 85, 0.1);
+}
+
+.neon-btn-outline-pink:hover {
+  background: var(--neon-pink);
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.6), 0 0 40px rgba(255, 0, 85, 0.4);
+}
+
+.neon-btn-purple {
+  background: var(--bg-color);
+  color: var(--neon-purple);
+  border: 1px solid var(--neon-purple);
+  box-shadow: 0 0 10px rgba(188, 19, 254, 0.2), inset 0 0 10px rgba(188, 19, 254, 0.1);
+}
+
+.neon-btn-purple:hover {
+  background: var(--neon-purple);
+  color: white;
+  box-shadow: 0 0 20px rgba(188, 19, 254, 0.6);
+}
+
+/* ==========================================================================
+   Global Section Styles
+   ========================================================================== */
+main {
+  width: 100%;
+}
+
+section {
+  padding: 100px 5%;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  position: relative;
+  align-items: flex-start;
+}
+
+.greeting {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.name {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.tagline {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.short-intro {
+  max-width: 600px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+}
+
+.cta-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Hero Background Animations */
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: -1;
+  opacity: 0.4;
+  animation: float 10s infinite alternate;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background: var(--neon-blue);
+  top: 10%;
+  right: 10%;
+}
+
+.shape-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--neon-purple);
+  bottom: 0;
+  left: -20%;
+  animation-delay: -5s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(30px, -50px); }
+}
+
+@keyframes pulse-glow {
+  0% { text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(0, 243, 255, 0.9), 0 0 30px rgba(0, 243, 255, 0.6); }
+  100% { text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); }
+}
+
+.glow-pulse {
+  animation: pulse-glow 3s infinite;
+}
+
+/* ==========================================================================
+   About Section
+   ========================================================================== */
+.about-content {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-text p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.about-image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.about-image-frame {
+  width: 300px;
+  height: 300px;
+  border-radius: 12px;
+  position: relative;
+  background: var(--bg-color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: var(--text-secondary);
+  transition: var(--transition-normal);
+  z-index: 1;
+}
+
+.neon-box-pink {
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+  border: 2px solid var(--neon-pink);
+}
+
+.about-image-container::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  width: 300px;
+  height: 300px;
+  border: 2px solid var(--neon-blue);
+  border-radius: 12px;
+  z-index: 0;
+  transition: var(--transition-normal);
+}
+
+.about-image-container:hover .about-image-frame {
+  transform: translate(-5px, -5px);
+  box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+  color: var(--neon-pink);
+}
+
+.about-image-container:hover::after {
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+}
+
+/* ==========================================================================
+   Projects Section
+   ========================================================================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--bg-color-light);
+  border-radius: 8px;
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-sizing: border-box;
+}
+
+/* Gradient border for projects */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.project-card:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(188, 19, 254, 0.8);
+}
+
+/* Card hover glow classes */
+.neon-card-purple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(188, 19, 254, 0.2);
+  border-color: rgba(188, 19, 254, 0.5);
+}
+
+.neon-card-blue:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 243, 255, 0.2);
+  border-color: rgba(0, 243, 255, 0.5);
+}
+
+.neon-card-pink:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(255, 0, 85, 0.2);
+  border-color: rgba(255, 0, 85, 0.5);
+}
+
+/* Project Icons */
+.neon-card-purple .folder-icon { color: var(--neon-purple); }
+.neon-card-blue .folder-icon { color: var(--neon-blue); }
+.neon-card-pink .folder-icon { color: var(--neon-pink); }
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.folder-icon {
+  font-size: 2.5rem;
+}
+
+.project-links a {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-left: 1rem;
+}
+
+.project-links a:hover {
+  color: var(--neon-blue);
+}
+
+.project-title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.project-card:hover .project-title {
+  color: var(--neon-blue); /* fallback */
+}
+.neon-card-purple:hover .project-title { color: var(--neon-purple); }
+.neon-card-blue:hover .project-title { color: var(--neon-blue); }
+.neon-card-pink:hover .project-title { color: var(--neon-pink); }
+
+.project-description {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.project-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+}
+
+/* ==========================================================================
+   Skills Section
+   ========================================================================== */
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+
+.skills-category h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skill-tag {
+  padding: 8px 16px;
+  background: var(--bg-color-light);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid;
+  transition: all var(--transition-normal);
+}
+
+.neon-border-blue {
+  border-color: rgba(0, 243, 255, 0.3);
+  color: var(--text-primary);
+}
+
+.neon-border-blue:hover {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+  color: var(--neon-blue);
+}
+
+.neon-border-purple {
+  border-color: rgba(188, 19, 254, 0.3);
+  color: var(--text-primary);
+}
+
+.neon-border-purple:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
+  color: var(--neon-purple);
+}
+
+/* Progress Bars */
+.skill-bar-container {
+  margin-bottom: 1.5rem;
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-family: var(--font-heading);
+}
+
+.progress-line {
+  height: 8px;
+  width: 100%;
+  background: var(--bg-color-light);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-line span {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
+}
+
+.progress-purple {
+  background: var(--neon-purple);
+  box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.progress-pink {
+  background: var(--neon-pink);
+  box-shadow: 0 0 10px var(--neon-pink);
+}
+
+.progress-blue {
+  background: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* ==========================================================================
+   Contact Section
+   ========================================================================== */
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.contact-info h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.contact-details {
+  margin-bottom: 2rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.contact-item i {
+  font-size: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--bg-color-light);
+  font-size: 1.2rem;
+  transition: all var(--transition-normal);
+}
+
+.neon-icon-blue:hover {
+  background: var(--neon-blue);
+  color: var(--bg-color);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+}
+
+.neon-icon-purple:hover {
+  background: var(--neon-purple);
+  color: white;
+  box-shadow: 0 0 15px rgba(188, 19, 254, 0.6);
+}
+
+.neon-icon-pink:hover {
+  background: var(--neon-pink);
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
+}
+
+.contact-form {
+  background: var(--bg-color-light);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 1rem;
+  transition: all var(--transition-normal);
+}
+
+.form-control:focus {
+  outline: none;
+}
+
+.neon-input-focus:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 10px rgba(188, 19, 254, 0.2);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer {
+  padding: 2rem 5%;
+  text-align: center;
+  background: var(--bg-color-light);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+  .about-content, .contact-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .about-image-container {
+    order: -1;
+  }
+  
+  section {
+    padding: 80px 5%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hamburger {
+    display: block;
+    z-index: 100;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: var(--bg-color-light);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s ease-in-out;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+  
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cta-group .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
