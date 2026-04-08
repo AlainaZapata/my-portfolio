@@ -242,7 +242,9 @@
                 </div>
                 
                 <div class="contact-form-container neon-gradient-border" style="padding: 2px;">
-                    <form class="contact-form">
+                    <form class="contact-form" action="https://formspree.io/f/xpqonbdb" method="POST">
+                        <input type="hidden" name="_subject" value="New message from Alaina portfolio">
+                        <input type="text" name="_honey" style="display:none">
                         <div class="form-group">
                             <input type="text" id="name" name="name" required placeholder="Name" class="form-control neon-input-focus">
                         </div>
@@ -253,6 +255,7 @@
                             <textarea id="message" name="message" rows="5" required placeholder="Your Message" class="form-control neon-input-focus"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary neon-btn-purple w-100">Send Message</button>
+                        <p class="form-status" aria-live="polite"></p>
                     </form>
                 </div>
             </div>

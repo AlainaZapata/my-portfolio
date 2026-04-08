@@ -74,27 +74,54 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     const contactForm = document.querySelector('.contact-form');
     if(contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Just a visual feedback for mockup
             const btn = contactForm.querySelector('button[type="submit"]');
+            const statusText = contactForm.querySelector('.form-status');
             const originalText = btn.textContent;
+            const formData = new FormData(contactForm);
+
             btn.textContent = "Sending...";
             btn.style.opacity = '0.7';
-            
-            setTimeout(() => {
+            btn.disabled = true;
+            if (statusText) {
+                statusText.textContent = "";
+                statusText.classList.remove('error');
+            }
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: { "Accept": "application/json" }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Message failed");
+                }
+
+                contactForm.reset();
                 btn.textContent = "Message Sent!";
                 btn.style.backgroundColor = "var(--neon-blue)";
                 btn.style.color = "var(--bg-color)";
-                contactForm.reset();
-                
+                if (statusText) {
+                    statusText.textContent = "Thanks! Your message was sent successfully.";
+                }
+            } catch (error) {
+                btn.textContent = "Try Again";
+                if (statusText) {
+                    statusText.textContent = "Sorry, message failed. Please try again in a moment.";
+                    statusText.classList.add('error');
+                }
+            } finally {
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.style.backgroundColor = "";
                     btn.style.color = "";
                     btn.style.opacity = '1';
+                    btn.disabled = false;
                 }, 3000);
-            }, 1500);
+            }
         });
     }
 
