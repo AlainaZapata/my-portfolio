@@ -299,6 +299,31 @@ section {
   align-items: flex-start;
 }
 
+.hero-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+
+.hero-profile-image {
+  width: min(100%, 360px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 243, 255, 0.6);
+  box-shadow: 0 0 18px rgba(0, 243, 255, 0.35), 0 0 40px rgba(188, 19, 254, 0.2);
+}
+
 .greeting {
   font-family: var(--font-heading);
   font-size: 1.2rem;
@@ -793,9 +818,18 @@ footer {
    Responsive
    ========================================================================== */
 @media screen and (max-width: 900px) {
-  .about-content, .contact-container {
+  .hero-layout, .about-content, .contact-container {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .hero-profile {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-profile-image {
+    width: min(100%, 300px);
   }
   
   .about-image-container {
